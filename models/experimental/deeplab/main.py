@@ -31,6 +31,23 @@ from tensorflow.python.estimator import estimator
 from deeplab import common
 from deeplab.deprecated import segmentation_dataset
 
+###### Custom settings ######
+
+flags.DEFINE_integer(
+    'hard_example_mining_step', 0,
+    'The training step in which exact hard example mining kicks off. Note we '
+    'gradually reduce the mining percent to the specified '
+    'top_k_percent_pixels. For example, if hard_example_mining_step=100K and '
+    'top_k_percent_pixels=0.25, then mining percent will gradually reduce from '
+    '100% to 25% until 100K steps after which we only mine top 25% pixels.')
+
+
+flags.DEFINE_float(
+    'top_k_percent_pixels', 1.0,
+    'The top k percent pixels (in terms of the loss values) used to compute '
+    'loss during training. This is useful for hard pixel mining.')
+
+
 # Dataset settings.
 flags.DEFINE_string('dataset_name', 'pascal_voc_seg',
                     'Name of the segmentation dataset.')

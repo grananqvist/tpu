@@ -72,6 +72,8 @@ def loss_fn(features, labels, mode, params):
         ignore_label=params['ignore_label'],
         loss_weight=1.0,
         upsample_logits=params['upsample_logits'],
+        hard_example_mining_step=params['hard_example_mining_step'],
+        top_k_percent_pixels=params['top_k_percent_pixels'],
         scope=output)
 
   losses = tf.add_n(tf.losses.get_losses())
