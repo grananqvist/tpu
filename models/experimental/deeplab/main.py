@@ -47,6 +47,8 @@ flags.DEFINE_float(
     'The top k percent pixels (in terms of the loss values) used to compute '
     'loss during training. This is useful for hard pixel mining.')
 
+flags.DEFINE_list('class_weights', '1.0,1.0,1.0,1.0',
+                           '4 class weights')
 
 # Dataset settings.
 flags.DEFINE_string('dataset_name', 'pascal_voc_seg',

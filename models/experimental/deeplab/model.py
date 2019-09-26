@@ -71,6 +71,7 @@ def loss_fn(features, labels, mode, params):
         num_classes,
         ignore_label=params['ignore_label'],
         loss_weight=1.0,
+        class_weights=[float(w) for w in params['class_weights']],
         upsample_logits=params['upsample_logits'],
         hard_example_mining_step=params['hard_example_mining_step'],
         top_k_percent_pixels=params['top_k_percent_pixels'],
