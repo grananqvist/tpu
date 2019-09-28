@@ -245,11 +245,17 @@ def model_fn(features, labels, mode, params):
     tf.logging.info('Found an init checkpoint.')
     model_variant = params['model_options'].model_variant
     var_scope = '{}/'.format(feature_extractor.name_scope[model_variant])
+    init_mapping = {}
+    # Option to initialize all layers
+    if params['init_backbone_only']:
+        print('initialization - init backbone only')
+        init_mapping[var_scope] = var_scope
+    else:
+        print('initialization - init full model')
+
     def scaffold_fn():
       """Create Scaffold for initialization, etc."""
-      tf.train.init_from_checkpoint(params['init_checkpoint'], {
-          var_scope: var_scope,
-      })
+      tf.train.init_from_checkpoint(params['init_checkpoint'], init_mapping)
       return tf.train.Scaffold()
   else:
     tf.logging.info('No init checkpoint found. Training from scratch.')

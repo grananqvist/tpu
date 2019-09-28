@@ -50,6 +50,11 @@ flags.DEFINE_float(
 flags.DEFINE_list('class_weights', '1.0,1.0,1.0,1.0',
                            '4 class weights')
 
+
+flags.DEFINE_boolean('init_backbone_only',
+                     True,
+                     'Initialize only backbone from initial checkpoint')
+
 # Dataset settings.
 flags.DEFINE_string('dataset_name', 'pascal_voc_seg',
                     'Name of the segmentation dataset.')
