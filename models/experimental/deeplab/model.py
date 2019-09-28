@@ -249,9 +249,10 @@ def model_fn(features, labels, mode, params):
     # Option to initialize all layers
     if params['init_backbone_only']:
         print('initialization - init backbone only')
-        init_mapping[var_scope] = var_scope
+        init_mapping = { var_scope: var_scope }
     else:
         print('initialization - init full model')
+        init_mapping = { '/': '/' }
 
     def scaffold_fn():
       """Create Scaffold for initialization, etc."""
