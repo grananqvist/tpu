@@ -21,6 +21,7 @@ from deeplab import common
 from deeplab.core import feature_extractor
 from deeplab.model import multi_scale_logits
 from deeplab.utils.train_utils import add_softmax_cross_entropy_loss_for_each_scale
+from deeplab.utils import train_utils
 
 
 slim = tf.contrib.slim
@@ -245,19 +246,22 @@ def model_fn(features, labels, mode, params):
     tf.logging.info('Found an init checkpoint.')
     model_variant = params['model_options'].model_variant
     var_scope = '{}/'.format(feature_extractor.name_scope[model_variant])
-    init_mapping = {}
-    # Option to initialize all layers
-    if params['init_backbone_only']:
-        print('initialization - init backbone only')
-        init_mapping = { var_scope: var_scope }
-    else:
-        print('initialization - init full model')
-        init_mapping = { '/': '/' }
-
+        
     def scaffold_fn():
       """Create Scaffold for initialization, etc."""
-      tf.train.init_from_checkpoint(params['init_checkpoint'], init_mapping)
-      return tf.train.Scaffold()
+      if params['init_backbone_only']:
+          print('initialization - init backbone only')
+          tf.train.init_from_checkpoint(params['init_checkpoint'], { var_scope: var_scope })
+          return tf.train.Scaffold()
+      else:
+          print('initialization - init full model')
+          init_fn = train_utils.get_model_init_fn(
+            params['model_dir'],
+            params['init_checkpoint'],
+            True,
+            [],
+            ignore_missing_vars=False)
+          return tf.train.Scaffold(init_fn=init_fn)
   else:
     tf.logging.info('No init checkpoint found. Training from scratch.')
     scaffold_fn = None
