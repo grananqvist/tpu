@@ -55,6 +55,11 @@ flags.DEFINE_boolean('init_backbone_only',
                      True,
                      'Initialize only backbone from initial checkpoint')
 
+flags.DEFINE_float('anomaly_threshold', 3,
+    'a value greater than 1.  Suppress anomalies'
+    'where the mean-square-gradients for a step exceed the long-term average'
+    'by at least this factor')
+
 # Dataset settings.
 flags.DEFINE_string('dataset_name', 'pascal_voc_seg',
                     'Name of the segmentation dataset.')

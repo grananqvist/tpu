@@ -136,6 +136,13 @@ def _get_optimizer(params, learning_rate):
         momentum=params['rmsprop_momentum'])
   else:
     raise KeyError('Unknown optimizer: %s' % params['optimizer'])
+  """
+  elif params['optimizer'] == 'adafactor':
+      AdafactorOptimizer(
+              learning_rate=learning_rate,
+              horizon_exponent=params['momentum'],
+              anomaly_threshold=params['anomaly_threshold'])
+  """
 
   return optimizer
 
@@ -252,7 +259,7 @@ def model_fn(features, labels, mode, params):
       if params['init_backbone_only']:
           print('initialization - init backbone only')
           tf.train.init_from_checkpoint(params['init_checkpoint'], { var_scope: var_scope })
-          return tf.train.Scaffold()
+          return tf.train.Scaffold(saver=tf.train.Saver(max_to_keep=8))
       else:
           print('initialization - init full model')
           init_fn = train_utils.get_model_init_fn(
@@ -261,7 +268,9 @@ def model_fn(features, labels, mode, params):
             True,
             [],
             ignore_missing_vars=False)
-          return tf.train.Scaffold(init_fn=init_fn)
+          return tf.train.Scaffold(
+                  init_fn=init_fn,
+                  saver=tf.train.Saver(max_to_keep=8))
   else:
     tf.logging.info('No init checkpoint found. Training from scratch.')
     scaffold_fn = None
