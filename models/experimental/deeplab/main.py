@@ -164,6 +164,8 @@ flags.DEFINE_string(
     help='GCE zone where the Cloud TPU is located in. If not specified, we '
     'will attempt to automatically detect the GCE project from metadata.')
 
+flags.DEFINE_bool('normamlize', default=False, 'Divide images by 255')
+
 slim = tf.contrib.slim
 FLAGS = flags.FLAGS
 
