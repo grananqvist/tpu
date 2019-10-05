@@ -147,6 +147,7 @@ flags.DEFINE_integer(
 flags.DEFINE_integer('num_shards', 8, 'Number of shards (TPU chips).')
 flags.DEFINE_bool('use_tpu', True, 'Use TPUs rather than plain CPUs')
 flags.DEFINE_bool('use_bfloat16', False, 'Use bfloat16 for training')
+flags.DEFINE_bool('normalize', False, 'Divide images by 255')
 
 # Cloud TPU Cluster Resolvers
 flags.DEFINE_string(
@@ -164,7 +165,6 @@ flags.DEFINE_string(
     help='GCE zone where the Cloud TPU is located in. If not specified, we '
     'will attempt to automatically detect the GCE project from metadata.')
 
-flags.DEFINE_bool('normamlize', default=False, 'Divide images by 255')
 
 slim = tf.contrib.slim
 FLAGS = flags.FLAGS
