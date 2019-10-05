@@ -228,7 +228,8 @@ def get_params(ignore_label, num_classes, num_batches_per_epoch):
       outputs_to_num_classes, FLAGS.crop_size, FLAGS.atrous_rates,
       FLAGS.output_stride,
       preprocessed_images_dtype=(
-          tf.bfloat16 if params['use_bfloat16'] else tf.float32))
+          tf.bfloat16 if params['use_bfloat16'] else tf.float32),
+      nomalize=FLAGS.normalize)
   params.update({'ignore_label': ignore_label,
                  'model_options': model_options,
                  'num_batches_per_epoch': num_batches_per_epoch,
