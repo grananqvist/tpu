@@ -125,7 +125,8 @@ class InputReader(object):
         scale_factor_step_size=params['scale_factor_step_size'],
         ignore_label=self._dataset.ignore_label,
         is_training=self._is_training,
-        model_variant=self._model_variant)
+        model_variant=self._model_variant,
+        normalize=params['normalize'])
 
     sample = {
         'image': image,
